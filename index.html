@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset='utf-8'>
+	<meta http-equiv="X-UA-Compatible" content="chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="css/#">
+	<script src="js/jquery-3.0.0.js"></script>
+	<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=您申请的appkey"></script>
+
+	<title>test amap</title>
+</head>
+
+<body>
+
+	<!-- point start -->
+
+	<div id="ipinfo" tabindex="0"></div> 
+	<div id="container" tabindex="0"></div> 
+
+	<style type="text/css">
+		#container {
+			width: 500px; 
+			height: 500px; 
+		}
+	</style>
+
+	<script type="text/javascript">
+		$.ajax({
+			url : 'http://restapi.amap.com/v3/ip?key=您申请的appkey',
+			method: 'get',
+			dataType: 'json',
+			success : function(data) {
+				$("#ipinfo").html(
+					"<h3><span>位置：</span>" +
+					data.province + 
+					" " + 
+					data.city +
+					"<br>" +
+					"<span>坐标：</span>" +
+					data.rectangle +
+					"</h3>"
+					);
+
+				console.log(data.rectangle.split(";")[0]);
+
+				var map = new AMap.Map('container',{
+					resizeEnable: true,
+					zoom: 15,
+					center: [data.rectangle.split(";")[0]]
+				});
+				var marker = new AMap.Marker({
+					position: [data.rectangle.split(";")[0]]
+				});
+				marker.setMap(map);
+				map.setCenter(marker.getPosition());
+			}
+		});
+
+	</script>
+
+	<!-- point end -->
+
+	<!-- shape start -->
+
+	<div id="shape" tabindex="0"></div>
+
+	<style type="text/css">
+		
+	</style>
+
+	<script type="text/javascript">
+		
+	</script>
+
+	<!-- shape start -->
+
+</body>
+</html>
